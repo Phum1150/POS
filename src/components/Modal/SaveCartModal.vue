@@ -9,6 +9,7 @@ const CartName = ref('')
 const emit = defineEmits(['close', 'save'])
 
 const save = (name) => {
+    name = name.trim() || 'NewCart'
     const existing = Object.values(cart.savedCarts).find(c => c.name === name)
     if (existing && !window.confirm(`Cart "${name}" already exists. Overwrite?`)) {
         return
