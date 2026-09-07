@@ -11,10 +11,14 @@ const emit = defineEmits(['close', 'save'])
 const save = (name) => {
     name = name.trim() || 'NewCart'
     const existing = Object.values(cart.savedCarts).find(c => c.name === name)
-    if (existing && !window.confirm(`Cart "${name}" already exists. Overwrite?`)) {
+    const isExist = existing && !confirm(`Cart "${name}" already exists. Overwrite?`)
+    
+    if (isExist) {
         return
     }
-    if (cart.saveCurrentCart(name, existing)) {
+    
+    const canSaveCart = cart.saveCurrentCart(name, existing)
+    if (canSaveCart) {
         cart.clearCart()
         emit('save')
     }
