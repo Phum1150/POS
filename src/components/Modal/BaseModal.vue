@@ -4,6 +4,8 @@ const props = defineProps({
     width: { type: String, default: 'w-[30%]' } // เช่น 'w-[20%]', 'w-96'
 })
 
+defineEmits(['close'])
+
 </script>
 
 <template>
@@ -16,7 +18,7 @@ const props = defineProps({
                 <div class="flex justify-end gap-2 mt-4">
                     <slot name="footer">
                         <!-- default footer ถ้าไม่ส่งอะไรมา -->
-                        <button @click="$emit('close')">Cancel</button>
+                        <button @click="$emit('close')" class="px-4 py-2 border rounded hover:bg-gray-900">Cancel</button>
                     </slot>
                 </div>
 

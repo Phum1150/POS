@@ -17,9 +17,9 @@ const products = [
 </script>
 
 <template>
-    <div class="grid grid-cols-5 gap-5 col-span-3">
+    <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-5 col-span-3">
         <button @click="cart.addItem({id: product.id ,name: product.name, price: product.price})" v-for="product in products" :key="product.id"
-            class="w-40 p-4 bg-gray-800 hover:bg-gray-900 text-left rounded-2xl space-y-5 cursor-pointer">
+            class="w-full p-4 bg-gray-800 hover:bg-gray-900 text-left rounded-2xl space-y-5 cursor-pointer">
             <p>{{ product.name }}</p>
             <p>Price: {{ product.price }}</p>
         </button>

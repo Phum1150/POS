@@ -1,28 +1,34 @@
 <script setup>
 import { ref } from 'vue'
 import { useCartStore } from '@/stores/cart'
-import EditCartModal from '@/components/EditCartModal.vue';
-import SummaryModal from './SummaryModal.vue';
+import EditItemModal from './Modal/EditItemModal.vue';
+import SummaryModal from './Modal/SummaryModal.vue';
+import CartListModal from './Modal/CartListModal.vue';
 
 const cart = useCartStore()
-const showEditModal = ref(false)
+const showEditItemModal = ref(false)
 const showSummaryModal = ref(false)
+const showCartListModal = ref(false)
 const itemEdit = ref({})
 
 const openEdit = (item) => {
     itemEdit.value = item
-    showEditModal.value = true
+    showEditItemModal.value = true
 }
 
 const openSummary = () => {
     showSummaryModal.value = true
 }
 
+const openCartList = () => {
+    showCartListModal.value = true
+}
+
 </script>
 
 <template>
     <div class="col-span-2 h-full min-h-100 p-1 flex flex-col border-2 rounded-2xl">
-        <div class="overflow-y-auto">
+        <div class="overflow-y-auto h-full">
             <table class="w-full">
                 <thead class="">
                     <tr class="">
@@ -50,18 +56,36 @@ const openSummary = () => {
                 </tbody>
             </table>
         </div>
-        <div class="w-full flex justify-end p-1 sticky bottom-0 gap-2">
-            <button @click="cart.clearCart" :disabled="cart.isEmpty"
-                class="font-semibold border-2 px-6 py-2 bg-gray-400 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer enabled:hover:bg-gray-600">
-                Clear</button>
-            <button @click="openSummary" :disabled="cart.isEmpty"
-                class="font-semibold border-2 px-6 py-2 bg-green-400 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer enabled:hover:bg-green-600">
-                Checkout</button>
+        <div class="w-full flex justify-between p-1 sticky bottom-0 gap-2">
+            <!-- <div class="flex gap-2">
+                <div class="border rounded-xl w-full flex p-2 overflow-x-auto">
+                    <button @click="" class="border p-1 cursor-pointer rounded bg-gray-500 hover:bg-gray-600">
+                        Cart1</button>
+                </div>
+            </div> -->
+            <div class="flex gap-2">
+                <button @click="" :disabled="cart.isEmpty"
+                    class="font-semibold border-2 px-4 py-2 bg-blue-400 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer enabled:hover:bg-blue-600">
+                    Save Cart</button>
+                <button @click="openCartList"
+                    class="font-semibold border-2 px-4 py-2 bg-blue-400 rounded-2xl cursor-pointer hover:bg-blue-600">
+                    Cart Lists</button>
+            </div>
+            <div class="flex gap-2">
+                <button @click="cart.clearCart" :disabled="cart.isEmpty"
+                    class="font-semibold border-2 px-4 py-2 bg-gray-400 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer enabled:hover:bg-gray-600">
+                    Clear</button>
+                <button @click="openSummary" :disabled="cart.isEmpty"
+                    class="font-semibold border-2 px-4 py-2 bg-green-400 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer enabled:hover:bg-green-600">
+                    Checkout</button>
+            </div>
         </div>
     </div>
-    <EditCartModal v-if="showEditModal" :show="showEditModal" :item="itemEdit" @close="showEditModal = false"
-        @save="showEditModal = false" />
+    <EditItemModal v-if="showEditItemModal" :show="showEditItemModal" :item="itemEdit" @close="showEditItemModal = false"
+        @save="showEditItemModal = false" />
     <SummaryModal v-if="showSummaryModal" :show="showSummaryModal" @close="showSummaryModal = false"
         @checkout="showSummaryModal = false" />
+    <CartListModal v-if="showCartListModal" :show="showCartListModal" @close="showCartListModal = false"
+        @checkout="showCartListModal = false" />
 
 </template>

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useCartStore } from '@/stores/cart'
-import BaseModal from '@/components/BaseModal.vue'
+import BaseModal from './BaseModal.vue'
 
 const cart = useCartStore()
 const props = defineProps({
