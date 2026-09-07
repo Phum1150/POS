@@ -4,12 +4,15 @@ import { useCartStore } from '@/stores/cart'
 import EditItemModal from './Modal/EditItemModal.vue';
 import SummaryModal from './Modal/SummaryModal.vue';
 import CartListModal from './Modal/CartListModal.vue';
+import SaveCartModal from './Modal/SaveCartModal.vue';
 
 const cart = useCartStore()
 const showEditItemModal = ref(false)
 const showSummaryModal = ref(false)
 const showCartListModal = ref(false)
+const showSaveCartModal = ref(false)
 const itemEdit = ref({})
+const CartName = ref('')
 
 const openEdit = (item) => {
     itemEdit.value = item
@@ -22,6 +25,10 @@ const openSummary = () => {
 
 const openCartList = () => {
     showCartListModal.value = true
+}
+
+const openSaveCart = () => {
+    showSaveCartModal.value = true
 }
 
 </script>
@@ -57,19 +64,14 @@ const openCartList = () => {
             </table>
         </div>
         <div class="w-full flex justify-between p-1 sticky bottom-0 gap-2">
-            <!-- <div class="flex gap-2">
-                <div class="border rounded-xl w-full flex p-2 overflow-x-auto">
-                    <button @click="" class="border p-1 cursor-pointer rounded bg-gray-500 hover:bg-gray-600">
-                        Cart1</button>
-                </div>
-            </div> -->
-            <div class="flex gap-2">
-                <button @click="" :disabled="cart.isEmpty"
+            <div class="flex gap-2 items-end">
+                <button @click="openSaveCart" :disabled="cart.isEmpty"
                     class="font-semibold border-2 px-4 py-2 bg-blue-400 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer enabled:hover:bg-blue-600">
                     Save Cart</button>
                 <button @click="openCartList"
                     class="font-semibold border-2 px-4 py-2 bg-blue-400 rounded-2xl cursor-pointer hover:bg-blue-600">
                     Cart Lists</button>
+                <p v-if="cart.cartLoadName">Loaded: {{ cart.cartLoadName }}</p>
             </div>
             <div class="flex gap-2">
                 <button @click="cart.clearCart" :disabled="cart.isEmpty"
@@ -81,11 +83,12 @@ const openCartList = () => {
             </div>
         </div>
     </div>
-    <EditItemModal v-if="showEditItemModal" :show="showEditItemModal" :item="itemEdit" @close="showEditItemModal = false"
-        @save="showEditItemModal = false" />
-    <SummaryModal v-if="showSummaryModal" :show="showSummaryModal" @close="showSummaryModal = false"
+    <EditItemModal v-if="showEditItemModal" :item="itemEdit"
+        @close="showEditItemModal = false" @save="showEditItemModal = false" />
+    <SummaryModal v-if="showSummaryModal" @close="showSummaryModal = false"
         @checkout="showSummaryModal = false" />
-    <CartListModal v-if="showCartListModal" :show="showCartListModal" @close="showCartListModal = false"
-        @checkout="showCartListModal = false" />
+    <CartListModal v-if="showCartListModal" @close="showCartListModal = false" />
+    <SaveCartModal v-if="showSaveCartModal" @close="showSaveCartModal = false"
+        @save="showSaveCartModal = false" />
 
 </template>

@@ -5,7 +5,6 @@ import BaseModal from './BaseModal.vue'
 
 const cart = useCartStore()
 const props = defineProps({
-    show: Boolean,
     item: Object,
 })
 

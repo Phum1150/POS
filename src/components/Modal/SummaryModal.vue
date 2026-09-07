@@ -4,11 +4,6 @@ import { useCartStore } from '@/stores/cart'
 import BaseModal from './BaseModal.vue'
 const cart = useCartStore()
 
-const props = defineProps({
-    show: Boolean,
-    items: Object,
-})
-
 const emit = defineEmits(['close', 'checkout'])
 
 const checkout = () => {

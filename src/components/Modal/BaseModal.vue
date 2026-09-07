@@ -11,7 +11,7 @@ defineEmits(['close'])
 <template>
     <Teleport to="body">
         <div class="fixed inset-0 flex items-center justify-center bg-black/50">
-            <div :class="['p-6 rounded border', width]">
+            <div :class="['p-6 rounded border bg-black', width]">
 
                 <slot />
 

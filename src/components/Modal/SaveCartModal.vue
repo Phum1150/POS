@@ -4,22 +4,28 @@ import { useCartStore } from '@/stores/cart'
 import BaseModal from './BaseModal.vue'
 
 const cart = useCartStore()
-const props = defineProps({
-    show: Boolean,
-    items: Object,
-})
+const CartName = ref('')
 
-const emit = defineEmits(['close', 'checkout'])
+const emit = defineEmits(['close', 'save'])
+
+const save = () => {
+    if (cart.saveCurrentCart(CartName.value)) {
+        cart.clearCart()
+        emit('save')
+    }
+}
 
 </script>
 
 <template>
-    <BaseModal width="w-[30%]">
+    <BaseModal width="w-[20%]">
         <p class="text-xl font-semibold">Save Cart</p>
+
+        <input v-model="CartName" min="1" class="w-full p-2 border rounded mb-2" placeholder="NewCart" />
 
         <template #footer>
             <button @click="$emit('close')" class="px-4 py-2 border rounded hover:bg-gray-900">Cancel</button>
-            <button @click="" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Save</button>
+            <button @click="save" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Save</button>
         </template>
     </BaseModal>
 </template>
