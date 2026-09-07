@@ -8,8 +8,12 @@ const CartName = ref('')
 
 const emit = defineEmits(['close', 'save'])
 
-const save = () => {
-    if (cart.saveCurrentCart(CartName.value)) {
+const save = (name) => {
+    const existing = Object.values(cart.savedCarts).find(c => c.name === name)
+    if (existing && !window.confirm(`Cart "${name}" already exists. Overwrite?`)) {
+        return
+    }
+    if (cart.saveCurrentCart(name, existing)) {
         cart.clearCart()
         emit('save')
     }
@@ -25,7 +29,7 @@ const save = () => {
 
         <template #footer>
             <button @click="$emit('close')" class="px-4 py-2 border rounded hover:bg-gray-900">Cancel</button>
-            <button @click="save" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Save</button>
+            <button @click="save(CartName)" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Save</button>
         </template>
     </BaseModal>
 </template>

@@ -60,8 +60,8 @@ export const useCartStore = defineStore('cart', {
             }
         },
 
-        saveCurrentCart(name) {
-            const id = Date.now().toString()
+        saveCurrentCart(name, existing) {
+            const id = existing ? existing.id : Date.now().toString()
             this.savedCarts[id] = {
                 id,
                 name,
@@ -69,6 +69,7 @@ export const useCartStore = defineStore('cart', {
                 savedAt: Date.now(),
             }
 
+            return true
         },
 
         loadSavedCart(id) {

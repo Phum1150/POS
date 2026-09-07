@@ -35,21 +35,21 @@ const openSaveCart = () => {
 
 <template>
     <div class="col-span-2 h-full min-h-100 p-1 flex flex-col border-2 rounded-2xl">
-        <div class="overflow-y-auto h-full">
+        <div class="overflow-y-auto h-full m-1">
             <table class="w-full">
                 <thead class="">
                     <tr class="">
                         <th class="text-left p-2 w-3/7">Name</th>
-                        <th class="text-center p-2 w-1/7">Price</th>
-                        <th class="text-center p-2 w-1/7">Qty</th>
-                        <th class="text-right p-2 w-1/6">Actions</th>
+                        <th class="text-right p-2 w-1/7">Price</th>
+                        <th class="text-right p-2 w-1/7">Qty</th>
+                        <th class="text-right p-2 w-2/6">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in cart.items" :key="item.id">
+                    <tr v-for="(item, index) in cart.items" :key="item.id" class="">
                         <td class="text-left p-1"> {{ index + 1 }}. {{ item.name }}</td>
-                        <td class="text-center p-1">{{ item.price }}</td>
-                        <td class="text-center p-1">{{ item.qty }}</td>
+                        <td class="text-right p-1">{{ item.price }}</td>
+                        <td class="text-right p-1">{{ item.qty }}</td>
                         <td class="text-right p-1">
                             <div class="space-x-1">
                                 <button @click="openEdit({ id: item.id, name: item.name, qty: item.qty })"
@@ -63,7 +63,7 @@ const openSaveCart = () => {
                 </tbody>
             </table>
         </div>
-        <div class="w-full flex justify-between p-1 sticky bottom-0 gap-2">
+        <div class="w-full flex justify-between p-2 sticky bottom-0 gap-2 border-2 rounded-xl">
             <div class="flex gap-2 items-end">
                 <button @click="openSaveCart" :disabled="cart.isEmpty"
                     class="font-semibold border-2 px-4 py-2 bg-blue-400 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer enabled:hover:bg-blue-600">
@@ -73,22 +73,26 @@ const openSaveCart = () => {
                     Cart Lists</button>
                 <p v-if="cart.cartLoadName">Loaded: {{ cart.cartLoadName }}</p>
             </div>
-            <div class="flex gap-2">
-                <button @click="cart.clearCart" :disabled="cart.isEmpty"
-                    class="font-semibold border-2 px-4 py-2 bg-gray-400 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer enabled:hover:bg-gray-600">
-                    Clear</button>
-                <button @click="openSummary" :disabled="cart.isEmpty"
-                    class="font-semibold border-2 px-4 py-2 bg-green-400 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer enabled:hover:bg-green-600">
-                    Checkout</button>
+            <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-2 border-2 p-2 rounded-xl">
+                    <p>Total Items: {{ cart.itemCount  }}</p>
+                    <p>Total Price: {{ cart.total }}</p>
+                </div>
+                <div class="flex gap-2">
+                    <button @click="cart.clearCart" :disabled="cart.isEmpty"
+                        class="font-semibold border-2 px-4 py-2 bg-gray-400 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer enabled:hover:bg-gray-600">
+                        Clear</button>
+                    <button @click="openSummary" :disabled="cart.isEmpty"
+                        class="font-semibold border-2 px-4 py-2 bg-green-400 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer enabled:hover:bg-green-600">
+                        Checkout</button>
+                </div>
             </div>
         </div>
     </div>
-    <EditItemModal v-if="showEditItemModal" :item="itemEdit"
-        @close="showEditItemModal = false" @save="showEditItemModal = false" />
-    <SummaryModal v-if="showSummaryModal" @close="showSummaryModal = false"
-        @checkout="showSummaryModal = false" />
+    <EditItemModal v-if="showEditItemModal" :item="itemEdit" @close="showEditItemModal = false"
+        @save="showEditItemModal = false" />
+    <SummaryModal v-if="showSummaryModal" @close="showSummaryModal = false" @checkout="showSummaryModal = false" />
     <CartListModal v-if="showCartListModal" @close="showCartListModal = false" />
-    <SaveCartModal v-if="showSaveCartModal" @close="showSaveCartModal = false"
-        @save="showSaveCartModal = false" />
+    <SaveCartModal v-if="showSaveCartModal" @close="showSaveCartModal = false" @save="showSaveCartModal = false" />
 
 </template>
