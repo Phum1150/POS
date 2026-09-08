@@ -66,24 +66,30 @@ const products = computed(() => category.value.filter((product) => product.name.
 </script>
 
 <template>
-    <div class="col-span-3 h-full flex flex-col min-h-0">
-        <div class="flex justify-between h-10">
-            <div class="flex shrink-0">
-                <button @click="category = drinks"
-                    class="border-2 font-semibold rounded-t-2xl border-b-0 px-6 pb-1 cursor-pointer">Drinks</button>
-                <button @click="category = sweets"
-                    class="border-2 font-semibold rounded-t-2xl border-b-0 px-6 pb-1 cursor-pointer">Sweets</button>
+    <div class="col-span-4 h-full flex flex-col min-h-0 gap-3">
+        <div class="flex justify-between">
+            <div class="flex flex-col gap-2">
+                <p class="text-2xl">Category</p>
+                <div class="flex gap-4">
+                    <button @click="category = drinks"
+                        :class="category === drinks ? 'bg-amber-500 text-black border-amber-500' : 'border-neutral-700 hover:bg-neutral-800'"
+                        class="border rounded-xl p-5 cursor-pointer">Drinks</button>
+                    <button @click="category = sweets"
+                        :class="category === sweets ? 'bg-amber-500 text-black border-amber-500' : 'border-neutral-700 hover:bg-neutral-800'"
+                        class="border rounded-xl p-5 cursor-pointer">Sweets</button>
+                </div>
             </div>
-            <div class="">
-                <input v-model="text" class="border rounded-xl w-75 p-1 mb-1" type="text" placeholder="Search...">
+            <div class=" self-end">
+                <input v-model="text" class="border border-neutral-700 bg-neutral-900 rounded-xl w-75 p-1 pl-2 mb-1" type="text" placeholder="Search...">
             </div>
 
         </div>
-        <div class="border-2 rounded-b-2xl rounded-tr-2xl flex-1 min-h-0 overflow-y-auto">
-            <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-5 p-2">
+        <p class="text-2xl">Menu</p>
+        <div class="flex-1 min-h-0 overflow-y-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5">
                 <button @click="cart.addItem({ id: product.id, name: product.name, price: product.price })"
                     v-for="product in products" :key="product.id"
-                    class="w-40 h-30 p-4 bg-gray-800 hover:bg-gray-900 text-left rounded-2xl space-y-5 cursor-pointer">
+                    class="w-45 h-30 p-4 bg-neutral-900 hover:bg-neutral-800 text-left rounded-2xl space-y-5 cursor-pointer">
                     <p>{{ product.name }}</p>
                     <p>Price: {{ product.price }}</p>
                 </button>

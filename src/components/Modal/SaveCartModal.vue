@@ -30,11 +30,11 @@ const save = (name) => {
     <BaseModal width="w-[20%]">
         <p class="text-xl font-semibold">Save Cart</p>
 
-        <input v-model="CartName" min="1" class="w-full p-2 border rounded mb-2" placeholder="NewCart" />
+        <input v-model="CartName" min="1" class="w-full p-2 border border-neutral-700 bg-neutral-900 rounded mb-2" placeholder="NewCart" />
 
         <template #footer>
-            <button @click="$emit('close')" class="px-4 py-2 border rounded hover:bg-gray-900">Cancel</button>
-            <button @click="save(CartName)" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Save</button>
+            <button @click="$emit('close')" class="px-4 py-2 border border-neutral-700 rounded hover:bg-neutral-800">Cancel</button>
+            <button @click="save(CartName)" class="bg-amber-500 text-black px-4 py-2 rounded hover:bg-amber-600">Save</button>
         </template>
     </BaseModal>
 </template>

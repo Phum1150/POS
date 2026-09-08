@@ -34,7 +34,7 @@ const del = (id) => {
                     <td class="text-right">
                         <div class="space-x-1">
                             <button @click="load(item.id)"
-                                class="border-2 p-1 text-sm bg-blue-600 hover:bg-blue-800 rounded">
+                                class="border-2 p-1 text-sm bg-neutral-700 hover:bg-neutral-600 rounded">
                                 Load</button>
                             <button @click="del(item.id)"
                                 class="border-2 p-1 text-sm bg-red-600 hover:bg-red-800 rounded">Remove</button>

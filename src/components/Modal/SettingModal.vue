@@ -26,30 +26,30 @@ const openEdit = (promotion) => {
 
 <template>
     <BaseModal width="w-[50%]">
-        <p class="text-xl mb-4">รายการโปรโมชั่น</p>
+        <p class="text-xl mb-4">Promotion Lists</p>
         <div class="flex flex-col gap-2">
             <div class="w-full flex justify-end">
                 <button @click="openAddModal"
-                    class="border px-2 py-1 self-end bg-blue-500 hover:bg-blue-600 cursor-pointer rounded-md">
-                    เพิ่ม +</button>
+                    class="border px-2 py-1 self-end bg-amber-500 text-black hover:bg-amber-600 cursor-pointer rounded-md">
+                    Add +</button>
             </div>
-            <div v-for="promotion in promo.promotions" class="border p-2 rounded flex justify-between">
+            <div v-for="promotion in promo.promotions" class="border border-neutral-700 p-2 rounded flex justify-between">
                 <div>
-                    <p>ชื่อโปรโมชั่น: {{ promotion.name }}</p>
-                    <p>ส่วนลด: {{ promotion.amount }}{{ promotion.type === 'percent' ? '%' : 'บาท' }}</p>
-                    <p>ราคาขั้นต่ำ: {{ promotion.minPrice }}</p>
+                    <p>Promotion Name : {{ promotion.name }}</p>
+                    <p>Discount : {{ promotion.amount }}{{ promotion.type === 'percent' ? '%' : 'บาท' }}</p>
+                    <p>Minimun Price : {{ promotion.minPrice }}</p>
                 </div>
                 <div class="flex flex-col gap-2">
                     <div class="flex gap-2">
                         <button @click="openEdit(promotion)"
-                            class="border-2 p-1 text-sm bg-blue-600 hover:bg-blue-800 rounded">
-                            แก้ไข</button>
+                            class="border p-1 text-sm bg-neutral-700 hover:bg-neutral-600 rounded">
+                            Edit</button>
                         <button @click="promo.deletePromotion(promotion.id)"
-                            class="border-2 p-1 text-sm bg-red-600 hover:bg-red-800 rounded">ลบ</button>
+                            class="border p-1 text-sm bg-red-600 hover:bg-red-800 rounded">Delete</button>
                     </div>
                     <button @click="promo.togglePromotion(promotion.id)"
                         :class="promotion.isUse ? 'bg-green-600' : 'bg-red-600'"
-                        class="border p-1 w-20 rounded-xl cursor-pointer">{{ promotion.isUse == true ? 'เปิด' : 'ปิด'
+                        class="border p-1 w-full rounded-xl cursor-pointer">{{ promotion.isUse == true ? 'ON' : 'OFF'
                         }}</button>
                 </div>
 
@@ -57,7 +57,7 @@ const openEdit = (promotion) => {
         </div>
 
         <template #footer>
-            <button @click="$emit('close')" class="px-4 py-2 border rounded hover:bg-gray-900">Close</button>
+            <button @click="$emit('close')" class="px-4 py-2 border border-neutral-700 rounded hover:bg-neutral-800">Close</button>
         </template>
     </BaseModal>
     <AddPromoModal v-if="showAddPromoModal" @close="showAddPromoModal = false" @save="showAddPromoModal = false" />

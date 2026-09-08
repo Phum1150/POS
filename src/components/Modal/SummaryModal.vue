@@ -29,7 +29,7 @@ const checkout = () => {
 <template>
     <BaseModal width="w-[20%]">
         <div class="flex flex-col gap-3">
-            <p class="text-xl font-semibold border-b border-gray-700 pb-2">Summary</p>
+            <p class="text-xl font-semibold border-b border-neutral-700 pb-2">Summary</p>
 
             <div class="flex flex-col gap-1 text-sm">
                 <p class="flex justify-between"><span>Total Items</span><span>{{ cart.itemCount }}</span></p>
@@ -39,25 +39,25 @@ const checkout = () => {
             <div class="flex flex-col gap-1">
                 <label for="promotion" class="text-sm">เลือก Promotion</label>
                 <select id="promotion" v-model="selectedPromotionId"
-                    class="border border-gray-600 bg-black rounded px-2 py-1 text-sm">
-                    <option class="bg-black" value="">ไม่ใช้โปรโมชั่น</option>
-                    <option class="bg-black" v-for="promotion in promo.promotionLists.filter(i => i.minPrice <= cart.total)"
+                    class="border border-neutral-700 bg-neutral-900 rounded px-2 py-1 text-sm">
+                    <option class="bg-neutral-900" value="">ไม่ใช้โปรโมชั่น</option>
+                    <option class="bg-neutral-900" v-for="promotion in promo.promotionLists.filter(i => i.minPrice <= cart.total)"
                         :key="promotion.id" :value="promotion.id">
                         {{ promotion.name }}
                     </option>
                 </select>
             </div>
 
-            <div class="flex flex-col gap-1 text-sm border-t border-gray-700 pt-2">
+            <div class="flex flex-col gap-1 text-sm border-t border-neutral-700 pt-2">
                 <p class="flex justify-between"><span>Discount</span><span>{{ discount }}</span></p>
                 <p class="flex justify-between text-lg font-semibold"><span>Total Price</span><span>{{ totalPrice }}</span></p>
             </div>
         </div>
 
         <template #footer>
-            <button @click="$emit('close')" class="px-4 py-2 border rounded hover:bg-gray-900">Cancel</button>
+            <button @click="$emit('close')" class="px-4 py-2 border border-neutral-700 rounded hover:bg-neutral-800">Cancel</button>
             <button @click="checkout"
-                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Checkout</button>
+                class="bg-amber-500 text-black px-4 py-2 rounded hover:bg-amber-600">Checkout</button>
         </template>
     </BaseModal>
 </template>

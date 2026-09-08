@@ -3,5 +3,6 @@
 @layer base {
   body {
     @apply bg-black text-white;
+    font-family: "Poppins", "Kanit", sans-serif;
   }
 }
