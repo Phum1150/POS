@@ -6,7 +6,7 @@ import Cart from '@/components/Cart.vue';
 <template>
     <div class="h-screen p-4 flex flex-col space-y-10">
         <p class="text-4xl font-bold">Coffee ee</p>
-        <div class="grid grid-cols-5 gap-5 items-start flex-1 min-h-0">
+        <div class="grid grid-cols-5 gap-2 items-start flex-1 min-h-0">
             <Products />
             <Cart />
         </div>
