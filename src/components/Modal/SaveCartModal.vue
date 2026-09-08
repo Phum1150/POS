@@ -28,7 +28,7 @@ const save = (name) => {
 
 <template>
     <BaseModal width="w-[20%]">
-        <p class="text-xl font-semibold">Save Cart</p>
+        <p class="text-xl font-semibold mb-2">Save Cart</p>
 
         <input v-model="CartName" min="1" class="w-full p-2 border border-neutral-700 bg-neutral-900 rounded mb-2" placeholder="NewCart" />
 

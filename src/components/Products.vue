@@ -1,10 +1,10 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, markRaw } from 'vue'
 import { useCartStore } from '@/stores/cart'
 
 const cart = useCartStore()
 const text = ref('')
-const drinks = [
+const drinks = markRaw([
     { id: 1, name: 'Espresso', price: 45 },
     { id: 2, name: 'Latte', price: 55 },
     { id: 3, name: 'Cappuccino', price: 55 },
@@ -35,9 +35,9 @@ const drinks = [
     { id: 28, name: 'Lemonade', price: 45 },
     { id: 29, name: 'Smoothie Mango', price: 65 },
     { id: 30, name: 'Smoothie Strawberry', price: 65 },
-]
+])
 
-const sweets = [
+const sweets = markRaw([
     { id: 51, name: 'Chocolate Cake', price: 85 },
     { id: 52, name: 'Carrot Cake', price: 80 },
     { id: 53, name: 'Tiramisu', price: 90 },
@@ -58,7 +58,7 @@ const sweets = [
     { id: 68, name: 'Apple Pie', price: 75 },
     { id: 69, name: 'Ice Cream', price: 50 },
     { id: 70, name: 'Pudding', price: 45 },
-]
+])
 
 const category = ref(drinks)
 const products = computed(() => category.value.filter((product) => product.name.toLowerCase().includes(text.value.toLowerCase())))
@@ -70,13 +70,13 @@ const products = computed(() => category.value.filter((product) => product.name.
         <div class="flex justify-between">
             <div class="flex flex-col gap-2">
                 <p class="text-2xl">Category</p>
-                <div class="flex gap-4">
+                <div class="flex gap-1 p-1 bg-neutral-900 border border-neutral-800 rounded-full w-fit">
                     <button @click="category = drinks"
-                        :class="category === drinks ? 'bg-amber-500 text-black border-amber-500' : 'border-neutral-700 hover:bg-neutral-800'"
-                        class="border rounded-xl p-5 cursor-pointer">Drinks</button>
+                        :class="category === drinks ? 'bg-amber-500 text-black' : 'text-neutral-400 hover:text-white hover:bg-neutral-800'"
+                        class="px-5 py-2 rounded-full font-medium cursor-pointer transition-colors">Drinks</button>
                     <button @click="category = sweets"
-                        :class="category === sweets ? 'bg-amber-500 text-black border-amber-500' : 'border-neutral-700 hover:bg-neutral-800'"
-                        class="border rounded-xl p-5 cursor-pointer">Sweets</button>
+                        :class="category === sweets ? 'bg-amber-500 text-black' : 'text-neutral-400 hover:text-white hover:bg-neutral-800'"
+                        class="px-5 py-2 rounded-full font-medium cursor-pointer transition-colors">Sweets</button>
                 </div>
             </div>
             <div class=" self-end">
@@ -85,13 +85,13 @@ const products = computed(() => category.value.filter((product) => product.name.
 
         </div>
         <p class="text-2xl">Menu</p>
-        <div class="flex-1 min-h-0 overflow-y-auto">
-            <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div class="flex-1 min-h-0 overflow-y-auto p-1">
+            <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
                 <button @click="cart.addItem({ id: product.id, name: product.name, price: product.price })"
                     v-for="product in products" :key="product.id"
-                    class="w-45 h-30 p-4 bg-neutral-900 hover:bg-neutral-800 text-left rounded-2xl space-y-5 cursor-pointer">
-                    <p>{{ product.name }}</p>
-                    <p>Price: {{ product.price }}</p>
+                    class="min-h-28 p-4 bg-neutral-900 border border-neutral-800 hover:border-amber-500/60 hover:bg-neutral-800 text-left rounded-xl flex flex-col justify-between gap-3 cursor-pointer transition-colors">
+                    <p class="font-medium leading-snug">{{ product.name }}</p>
+                    <p class="text-amber-500 font-semibold">{{ product.price }} ฿</p>
                 </button>
             </div>
         </div>

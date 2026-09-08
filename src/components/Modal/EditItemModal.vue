@@ -19,7 +19,7 @@ const save = () => {
 
 <template>
     <BaseModal width="w-[20%]">
-        <p>{{ props.item.name }}</p>
+        <p class="mb-2">{{ props.item.name }}</p>
 
         <input v-model="NewQty" type="number" min="1" class="w-full p-2 border border-neutral-700 bg-neutral-900 rounded mb-2" placeholder="Quantity..." />
 
