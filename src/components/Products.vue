@@ -67,7 +67,7 @@ const products = computed(() => category.value.filter((product) => product.name.
 
 <template>
     <div class="col-span-3 h-full flex flex-col min-h-0">
-        <div class="flex justify-between">
+        <div class="flex justify-between h-10">
             <div class="flex shrink-0">
                 <button @click="category = drinks"
                     class="border-2 font-semibold rounded-t-2xl border-b-0 px-6 pb-1 cursor-pointer">Drinks</button>
