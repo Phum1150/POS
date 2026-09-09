@@ -48,8 +48,8 @@ const openSetting = () => {
         <div class="h-full p-1 flex flex-col border-2 rounded-2xl">
             <div class="overflow-y-auto h-full m-1">
                 <table class="w-full">
-                    <thead class="">
-                        <tr class="">
+                    <thead>
+                        <tr>
                             <th class="text-left p-2 w-3/7">Name</th>
                             <th class="text-right p-2 w-1/7">Price</th>
                             <th class="text-right p-2 w-1/7">Qty</th>
@@ -57,13 +57,13 @@ const openSetting = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in cart.items" :key="item.id" class="">
+                        <tr v-for="(item, index) in cart.items" :key="item.id">
                             <td class="text-left p-1"> {{ index + 1 }}. {{ item.name }}</td>
                             <td class="text-right p-1">{{ item.price }}</td>
                             <td class="text-right p-1">{{ item.qty }}</td>
                             <td class="text-right p-1">
                                 <div class="space-x-1">
-                                    <button @click="openEdit({ id: item.id, name: item.name, qty: item.qty })"
+                                    <button @click="openEdit(item)"
                                         class="border-2 p-1 text-sm bg-blue-600 hover:bg-blue-800 rounded">
                                         Edit</button>
                                     <button @click="cart.removeItem(item.id)"

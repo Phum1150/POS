@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 import { useCartStore } from '@/stores/cart'
 import BaseModal from './BaseModal.vue'
 

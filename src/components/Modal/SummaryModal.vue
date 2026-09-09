@@ -10,7 +10,7 @@ const selectedPromotionId = ref('')
 
 const totalPrice = computed(() => {
     if (selectedPromotionId.value){
-        const finalPrice = promo.UsePromotion(selectedPromotionId.value, cart.total)
+        const finalPrice = promo.usePromotion(selectedPromotionId.value, cart.total)
         return finalPrice.value
     }
     return cart.total
