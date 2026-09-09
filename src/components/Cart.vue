@@ -67,7 +67,7 @@ const openSetting = () => {
                             <td class="text-right p-2">{{ item.qty }}</td>
                             <td class="text-right p-2">
                                 <div class="flex justify-end gap-1">
-                                    <button @click="openEdit({ id: item.id, name: item.name, qty: item.qty })"
+                                    <button @click="openEdit(item)"
                                         class="px-2 py-1 text-sm bg-neutral-700 hover:bg-neutral-600 rounded cursor-pointer">
                                         Edit</button>
                                     <button @click="cart.removeItem(item.id)"

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, toRaw } from 'vue'
+import { computed } from 'vue'
 import { ref } from 'vue'
 
 export const usePromotionStore = defineStore('promotion', () => {
@@ -7,7 +7,7 @@ export const usePromotionStore = defineStore('promotion', () => {
         { id: 1, name: "ลด 10% เมื่อซื้อครบ 500", type: "percent", amount: 10, minPrice: 500, isUse: true },
     ]) //[{id, name, type: 'fixed' | 'percent', amount, minPrice, isUse}]
 
-    const promotionLists = computed(() => promotions.value.filter(promotion => promotion.isUse === true))
+    const promotionLists = computed(() => promotions.value.filter(promotion => promotion.isUse))
     const promotionCount = computed(() => promotions.value.reduce((sum, promotion) => sum + promotion.qty, 0))
 
     function togglePromotion(id) {
@@ -17,13 +17,13 @@ export const usePromotionStore = defineStore('promotion', () => {
         }
     }
 
-    function UsePromotion(id, totalPrice) {
+    function usePromotion(id, totalPrice) {
         const promo = promotionLists.value.find(promotion => promotion.id === id)
         const finalPrice = ref(0)
 
-        if (promo.type == 'percent') {
+        if (promo.type === 'percent') {
             finalPrice.value = totalPrice - ((totalPrice * promo.amount) / 100)
-        } else if (promo.type == 'fixed') {
+        } else if (promo.type === 'fixed') {
             finalPrice.value = totalPrice - promo.amount
         }
         return finalPrice
@@ -33,10 +33,10 @@ export const usePromotionStore = defineStore('promotion', () => {
         promotions.value.push(newPromotion)
     }
 
-    function updatePromotion(updPro) {
-        const index = promotions.value.findIndex(promotion => promotion.id === updPro.id)
+    function updatePromotion(updatedPromotion) {
+        const index = promotions.value.findIndex(promotion => promotion.id === updatedPromotion.id)
         if (index !== -1) {
-            promotions.value[index] = { ...promotions.value[index], ...updPro }
+            promotions.value[index] = { ...promotions.value[index], ...updatedPromotion }
         }
     }
 
@@ -50,7 +50,7 @@ export const usePromotionStore = defineStore('promotion', () => {
         promotionLists,
         promotionCount,
         togglePromotion,
-        UsePromotion,
+        usePromotion,
         addPromotion,
         updatePromotion,
         deletePromotion,
