@@ -37,6 +37,16 @@ const openSetting = () => {
     showSettingModal.value = true
 }
 
+const onLoadCart = (data) => {
+    const items = data.items.map(item => ({
+        id: item.product.id,
+        name: item.product.name,
+        price: Number(item.product.price),
+        qty: item.quantity,
+    }))
+    cart.loadCart(data.name, items)
+}
+
 </script>
 
 <template>
@@ -110,7 +120,7 @@ const openSetting = () => {
     <EditItemModal v-if="showEditItemModal" :item="itemEdit" @close="showEditItemModal = false"
         @save="showEditItemModal = false" />
     <SummaryModal v-if="showSummaryModal" @close="showSummaryModal = false" @checkout="showSummaryModal = false" />
-    <CartListModal v-if="showCartListModal" @close="showCartListModal = false" />
+    <CartListModal v-if="showCartListModal" @close="showCartListModal = false" @load="onLoadCart" />
     <SaveCartModal v-if="showSaveCartModal" @close="showSaveCartModal = false" @save="showSaveCartModal = false" />
     <SettingModal v-if="showSettingModal" @close="showSettingModal= false" />
 
