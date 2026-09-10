@@ -12,7 +12,7 @@ const showSettingModal = ref(false)
 
 async function fetchProducts() {
     try {
-        products.value = await getProducts({ type: category.value, search: text.value })
+        products.value = await getProducts({ type: category.value, search: text.value, isActive: true })
     } catch (error) {
         console.error('Failed to fetch products', error)
     }

@@ -3,7 +3,7 @@ import { ref, onMounted, watch } from 'vue'
 import BaseModal from './BaseModal.vue'
 import AddProductModal from './AddProductModal.vue'
 import EditProductModal from './EditProductModal.vue'
-import { getProducts, deleteProduct as deleteProductApi } from '@/services/products'
+import { getProducts, deleteProduct as deleteProductApi, updateProductStatus } from '@/services/products'
 
 const emit = defineEmits(['close', 'changed'])
 
@@ -68,6 +68,18 @@ const deleteProduct = async (product) => {
     }
 }
 
+const changeProductStatus = async (product) => {
+    error.value = ''
+    try {
+        await updateProductStatus(product.id, {isActive :!product.isActive})
+        fetchAllProducts()
+        emit('changed')
+    } catch (err) {
+        console.error('Failed to update product status', err)
+        error.value = 'เปลี่ยนสถานะสินค้าไม่สำเร็จ'
+    }
+}
+
 </script>
 
 <template>
@@ -95,6 +107,9 @@ const deleteProduct = async (product) => {
                     </div>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
+                    <button @click="changeProductStatus(product)"
+                        :class="product.isUse ? 'bg-green-600' : 'bg-neutral-700 text-neutral-300'"
+                        class="px-3 py-1 rounded-full text-xs font-semibold cursor-pointer">{{ product.isActive ? 'แสดง' : 'ไม่แสดง' }}</button>
                     <button @click="openEdit(product)"
                         class="px-3 py-1 text-sm bg-neutral-700 hover:bg-neutral-600 rounded-lg cursor-pointer">
                         Edit</button>
