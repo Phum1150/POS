@@ -2,11 +2,13 @@
 import { computed, ref } from 'vue'
 import { useCartStore } from '@/stores/cart'
 import { usePromotionStore } from '@/stores/promotion.js'
+import { createCheckoutHistory } from '@/services/checkout'
 import BaseModal from './BaseModal.vue'
 
 const cart = useCartStore()
 const promo = usePromotionStore()
 const selectedPromotionId = ref('')
+const error = ref('')
 
 const totalPrice = computed(() => {
     if (selectedPromotionId.value){
@@ -20,9 +22,23 @@ const discount = computed(() => cart.total - totalPrice.value)
 
 const emit = defineEmits(['close', 'checkout'])
 
-const checkout = () => {
-    cart.checkout()
-    emit('checkout')
+const checkout = async () => {
+    error.value = ''
+    const selectedPromotion = promo.promotionLists.find(p => p.id === selectedPromotionId.value)
+    const data = {
+        promotion: selectedPromotion ? selectedPromotion.name : null,
+        netPrice: totalPrice.value,
+        items: cart.items.map(item => ({ id: item.id, quantity: item.qty })),
+    }
+
+    try {
+        await createCheckoutHistory(data)
+        cart.checkout()
+        emit('checkout')
+    } catch (err) {
+        console.error('Failed to save checkout history', err)
+        error.value = 'บันทึกประวัติการสั่งซื้อไม่สำเร็จ กรุณาลองใหม่'
+    }
 }
 </script>
 
@@ -57,6 +73,7 @@ const checkout = () => {
                     <span class="text-2xl font-bold text-amber-500">{{ totalPrice }} ฿</span>
                 </p>
             </div>
+            <p v-if="error" class="text-sm text-red-500">{{ error }}</p>
         </div>
 
         <template #footer>

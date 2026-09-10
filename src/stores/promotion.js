@@ -4,7 +4,7 @@ import { ref } from 'vue'
 
 export const usePromotionStore = defineStore('promotion', () => {
     const promotions = ref([
-        { id: 1, name: "ลด 10% เมื่อซื้อครบ 500", type: "percent", amount: 10, minPrice: 500, isUse: true },
+        { id: 1, name: "ลด 10% เมื่อซื้อครบ 200", type: "percent", amount: 10, minPrice: 200, isUse: true },
     ]) //[{id, name, type: 'fixed' | 'percent', amount, minPrice, isUse}]
 
     const promotionLists = computed(() => promotions.value.filter(promotion => promotion.isUse))
