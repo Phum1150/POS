@@ -1,91 +1,64 @@
 <script setup>
-import { ref, computed, markRaw } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useCartStore } from '@/stores/cart'
+import { getProducts } from '@/services/products'
+import ProductSettingModal from './Modal/ProductSettingModal.vue'
 
 const cart = useCartStore()
 const text = ref('')
-const drinks = markRaw([
-    { id: 1, name: 'Espresso', price: 45 },
-    { id: 2, name: 'Latte', price: 55 },
-    { id: 3, name: 'Cappuccino', price: 55 },
-    { id: 4, name: 'Americano', price: 40 },
-    { id: 5, name: 'Mocha', price: 60 },
-    { id: 6, name: 'Green Tea', price: 50 },
-    { id: 7, name: 'Croissant', price: 65 },
-    { id: 8, name: 'Muffin', price: 45 },
-    { id: 9, name: 'Sandwich', price: 75 },
-    { id: 10, name: 'Cheesecake', price: 85 },
-    { id: 11, name: 'Macchiato', price: 55 },
-    { id: 12, name: 'Flat White', price: 60 },
-    { id: 13, name: 'Cold Brew', price: 65 },
-    { id: 14, name: 'Iced Latte', price: 60 },
-    { id: 15, name: 'Iced Americano', price: 45 },
-    { id: 16, name: 'Caramel Macchiato', price: 65 },
-    { id: 17, name: 'Hazelnut Latte', price: 65 },
-    { id: 18, name: 'Vanilla Latte', price: 65 },
-    { id: 19, name: 'Affogato', price: 70 },
-    { id: 20, name: 'Hot Chocolate', price: 55 },
-    { id: 21, name: 'Matcha Latte', price: 65 },
-    { id: 22, name: 'Black Tea', price: 40 },
-    { id: 23, name: 'Earl Grey', price: 45 },
-    { id: 24, name: 'Thai Milk Tea', price: 45 },
-    { id: 25, name: 'Lemon Tea', price: 40 },
-    { id: 26, name: 'Chocolate Milk', price: 45 },
-    { id: 27, name: 'Orange Juice', price: 50 },
-    { id: 28, name: 'Lemonade', price: 45 },
-    { id: 29, name: 'Smoothie Mango', price: 65 },
-    { id: 30, name: 'Smoothie Strawberry', price: 65 },
-])
+const products = ref([])
+const category = ref('DRINK')
+const showSettingModal = ref(false)
 
-const sweets = markRaw([
-    { id: 51, name: 'Chocolate Cake', price: 85 },
-    { id: 52, name: 'Carrot Cake', price: 80 },
-    { id: 53, name: 'Tiramisu', price: 90 },
-    { id: 54, name: 'Macaron', price: 50 },
-    { id: 55, name: 'Croissant', price: 65 },
-    { id: 56, name: 'Muffin', price: 45 },
-    { id: 57, name: 'Cheesecake', price: 85 },
-    { id: 58, name: 'Brownie', price: 55 },
-    { id: 59, name: 'Cookie', price: 35 },
-    { id: 60, name: 'Donut', price: 40 },
-    { id: 61, name: 'Waffle', price: 70 },
-    { id: 62, name: 'Pancake', price: 70 },
-    { id: 63, name: 'Danish Pastry', price: 60 },
-    { id: 64, name: 'Bagel', price: 55 },
-    { id: 65, name: 'Yogurt Parfait', price: 55 },
-    { id: 66, name: 'Fruit Salad', price: 60 },
-    { id: 67, name: 'Cinnamon Roll', price: 60 },
-    { id: 68, name: 'Apple Pie', price: 75 },
-    { id: 69, name: 'Ice Cream', price: 50 },
-    { id: 70, name: 'Pudding', price: 45 },
-])
+async function fetchProducts() {
+    try {
+        products.value = await getProducts({ type: category.value, search: text.value })
+    } catch (error) {
+        console.error('Failed to fetch products', error)
+    }
+}
 
-const category = ref(drinks)
-const products = computed(() => category.value.filter((product) => product.name.toLowerCase().includes(text.value.toLowerCase())))
+onMounted(fetchProducts)
+watch(category, fetchProducts)
+
+let searchTimeout
+watch(text, () => {
+    clearTimeout(searchTimeout)
+    searchTimeout = setTimeout(fetchProducts, 300)
+})
+
+const openSetting = () => {
+    showSettingModal.value = true
+}
 
 </script>
 
 <template>
     <div class="col-span-4 h-full flex flex-col min-h-0 gap-3">
-        <div class="flex justify-between">
-            <div class="flex flex-col gap-2">
-                <p class="text-2xl">Category</p>
+        <div class="flex justify-between flex-col">
+            <div class="h-10 w-full flex items-center justify-between mb-1">
+                <p class="text-2xl font-semibold">Category</p>
+                <button @click="openSetting"
+                    class="border border-neutral-700 px-3 py-1 rounded-xl hover:bg-neutral-800 cursor-pointer font-semibold text-sm">
+                    Setting</button>
+            </div>
+            <div class="flex justify-between gap-2">
                 <div class="flex gap-1 p-1 bg-neutral-900 border border-neutral-800 rounded-full w-fit">
-                    <button @click="category = drinks"
-                        :class="category === drinks ? 'bg-amber-500 text-black' : 'text-neutral-400 hover:text-white hover:bg-neutral-800'"
+                    <button @click="category = 'DRINK'"
+                        :class="category === 'DRINK' ? 'bg-amber-500 text-black' : 'text-neutral-400 hover:text-white hover:bg-neutral-800'"
                         class="px-5 py-2 rounded-full font-medium cursor-pointer transition-colors">Drinks</button>
-                    <button @click="category = sweets"
-                        :class="category === sweets ? 'bg-amber-500 text-black' : 'text-neutral-400 hover:text-white hover:bg-neutral-800'"
+                    <button @click="category = 'SWEET'"
+                        :class="category === 'SWEET' ? 'bg-amber-500 text-black' : 'text-neutral-400 hover:text-white hover:bg-neutral-800'"
                         class="px-5 py-2 rounded-full font-medium cursor-pointer transition-colors">Sweets</button>
                 </div>
-            </div>
-            <div class=" self-end">
-                <input v-model="text" class="border border-neutral-700 bg-neutral-900 rounded-xl w-75 p-1 pl-2 mb-1" type="text" placeholder="Search...">
+                <input v-model="text" class="border border-neutral-700 bg-neutral-900 rounded-xl w-75 p-1 pl-2 mb-1"
+                    type="text" placeholder="Search...">
             </div>
 
         </div>
         <p class="text-2xl">Menu</p>
         <div class="flex-1 min-h-0 overflow-y-auto p-1">
+            <p v-if="products.length === 0" class="text-sm mb-2 text-center">ยังไม่มีรายการ</p>
             <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
                 <button @click="cart.addItem({ id: product.id, name: product.name, price: product.price })"
                     v-for="product in products" :key="product.id"
@@ -96,4 +69,5 @@ const products = computed(() => category.value.filter((product) => product.name.
             </div>
         </div>
     </div>
+    <ProductSettingModal v-if="showSettingModal" @close="showSettingModal = false" @changed="fetchProducts" />
 </template>
