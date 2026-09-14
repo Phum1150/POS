@@ -6,6 +6,7 @@ import SummaryModal from './Modal/SummaryModal.vue';
 import CartListModal from './Modal/CartListModal.vue';
 import SaveCartModal from './Modal/SaveCartModal.vue';
 import SettingModal from './Modal/SettingModal.vue';
+import HistoryModal from './Modal/HistoryModal.vue';
 
 const cart = useCartStore()
 const showEditItemModal = ref(false)
@@ -13,6 +14,7 @@ const showSummaryModal = ref(false)
 const showCartListModal = ref(false)
 const showSaveCartModal = ref(false)
 const showSettingModal = ref(false)
+const showHistoryModal = ref(false)
 const itemEdit = ref({})
 const CartName = ref('')
 
@@ -37,14 +39,31 @@ const openSetting = () => {
     showSettingModal.value = true
 }
 
+const openHistory = () => {
+    showHistoryModal.value = true
+}
+
+const onLoadCart = (data) => {
+    const items = data.items.map(item => ({
+        id: item.product.id,
+        name: item.product.name,
+        price: Number(item.product.price),
+        qty: item.quantity,
+    }))
+    cart.loadCart(data.name, items)
+}
+
 </script>
 
 <template>
     <div class="col-span-2 h-full flex flex-col min-h-0">
         <div class="h-10 w-full flex items-center justify-between mb-1">
             <p class="text-2xl font-semibold">Order</p>
-            <button @click="openSetting" class="border border-neutral-700 px-3 py-1 rounded-xl hover:bg-neutral-800 cursor-pointer font-semibold text-sm">
-                Setting</button>
+            <div class="flex gap-4">
+                <button @click="openHistory" class="border border-neutral-700 px-3 py-1 rounded-xl hover:bg-neutral-800 cursor-pointer font-semibold text-sm">History</button>
+                <button @click="openSetting" class="border border-neutral-700 px-3 py-1 rounded-xl hover:bg-neutral-800 cursor-pointer font-semibold text-sm">
+                    Setting</button>
+            </div>
         </div>
         <div class="h-full p-1 flex flex-col border-2 border-neutral-700 rounded-2xl">
             <div class="overflow-y-auto h-full m-1">
@@ -110,8 +129,9 @@ const openSetting = () => {
     <EditItemModal v-if="showEditItemModal" :item="itemEdit" @close="showEditItemModal = false"
         @save="showEditItemModal = false" />
     <SummaryModal v-if="showSummaryModal" @close="showSummaryModal = false" @checkout="showSummaryModal = false" />
-    <CartListModal v-if="showCartListModal" @close="showCartListModal = false" />
+    <CartListModal v-if="showCartListModal" @close="showCartListModal = false" @load="onLoadCart" />
     <SaveCartModal v-if="showSaveCartModal" @close="showSaveCartModal = false" @save="showSaveCartModal = false" />
     <SettingModal v-if="showSettingModal" @close="showSettingModal= false" />
+    <HistoryModal v-if="showHistoryModal" @close="showHistoryModal = false" />
 
 </template>
