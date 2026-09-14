@@ -22,6 +22,11 @@ export async function createProduct(data) {
     return response.data
 }
 
+export async function createProductBulk(data) {
+    const response = await axios.post(`${BASE_URL}/products/create/bulk`, data)
+    return response.data
+}
+
 export async function updateProduct(id, data) {
     const response = await axios.put(`${BASE_URL}/products/update/${id}`, data)
     return response.data

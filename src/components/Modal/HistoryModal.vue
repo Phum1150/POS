@@ -55,7 +55,7 @@ onMounted(fetchHistory)
         <p v-else-if="history.length === 0" class="text-center text-neutral-500 py-8">ยังไม่มีประวัติการสั่งซื้อ</p>
 
         <template v-else>
-            <div class="flex flex-col gap-2 max-h-[60vh] overflow-y-auto pr-1">
+            <div class="flex flex-col gap-2 h-[60vh] overflow-y-auto overflow-x-auto pr-1">
                 <div v-for="order in history" :key="order.id"
                     class="border border-neutral-800 bg-neutral-900/60 rounded-xl overflow-hidden">
                     <button @click="toggleExpand(order.id)"

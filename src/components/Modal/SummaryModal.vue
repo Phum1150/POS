@@ -26,7 +26,7 @@ const checkout = async () => {
     error.value = ''
     const selectedPromotion = promo.promotionLists.find(p => p.id === selectedPromotionId.value)
     const data = {
-        promotion: selectedPromotion ? selectedPromotion.name : null,
+        promotion: selectedPromotion ? selectedPromotion.name : undefined,
         netPrice: totalPrice.value,
         items: cart.items.map(item => ({ id: item.id, quantity: item.qty })),
     }
